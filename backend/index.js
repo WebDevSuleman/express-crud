@@ -1,0 +1,65 @@
+// const express = require("express");
+// const cors = require("cors");
+
+// const app = express();
+// const PORT = 5000;
+
+// // Enable CORS for frontend running on localhost:5173
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//   })
+// );
+
+// app.use(express.json());
+
+// app.get("/api", (req, res) => {
+//   res.json({ message: "Hello I am Suleman from Backend" });
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on http://localhost:${PORT}`);
+// });
+
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const PORT = 5000;
+
+app.use(cors());
+app.use(express.json());
+
+let users = []; // our fake database
+let id = 1;
+
+// CREATE
+app.post("/api/users", (req, res) => {
+  const user = { id: id++, ...req.body };
+  users.push(user);
+  res.status(201).json(user);
+});
+
+// READ
+app.get("/api/users", (req, res) => {
+  res.json(users);
+});
+
+// UPDATE
+app.put("/api/users/:id", (req, res) => {
+  const userId = +req.params.id;
+  users = users.map((user) =>
+    user.id === userId ? { ...user, ...req.body } : user
+  );
+  res.json({ message: "User updated" });
+});
+
+// DELETE
+app.delete("/api/users/:id", (req, res) => {
+  const userId = +req.params.id;
+  users = users.filter((user) => user.id !== userId);
+  res.json({ message: "User deleted" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT}`);
+});
