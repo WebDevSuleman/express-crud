@@ -28,13 +28,13 @@ const PORT = 5000;
 
 
 
-// Allow only your frontend URL
+// Allow CORS from frontend (without the trailing slash)
 app.use(cors({
-  origin: 'https://express-crud-delta.vercel.app/',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: 'https://express-crud-delta.vercel.app',  // Exact frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Include OPTIONS for preflight request
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers like Content-Type, Authorization if needed
   credentials: true
 }));
-
 app.use(express.json());
 
 let users = []; // our fake database
