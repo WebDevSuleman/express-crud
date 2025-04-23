@@ -22,11 +22,19 @@
 // });
 
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors");  
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+
+
+// Allow only your frontend URL
+app.use(cors({
+  origin: 'https://express-crud-delta.vercel.app/',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 let users = []; // our fake database
