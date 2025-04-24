@@ -22,19 +22,22 @@
 // });
 
 const express = require("express");
-const cors = require("cors");  
+const cors = require("cors");
 const app = express();
 const PORT = 5000;
 
-
-
 // Allow CORS from frontend (without the trailing slash)
-app.use(cors({
-  origin: 'https://express-crud-delta.vercel.app',  // Exact frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Include OPTIONS for preflight request
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers like Content-Type, Authorization if needed
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://express-crud-delta.vercel.app", // Exact frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Include OPTIONS for preflight request
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers like Content-Type, Authorization if needed
+    credentials: true,
+  })
+);
+// Required to handle preflight requests properly
+app.options("*", cors());
+
 app.use(express.json());
 
 let users = []; // our fake database
