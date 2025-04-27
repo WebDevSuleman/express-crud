@@ -48,6 +48,10 @@ app.use(express.json());
 let users = []; // our fake database
 let id = 1;
 
+app.get('/',(req,res)=>{
+  res.send("Welcome to the Backend")
+})
+
 // CREATE
 app.post("/api/users", (req, res) => {
   const user = { id: id++, ...req.body };
