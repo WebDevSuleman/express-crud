@@ -24,33 +24,29 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173", // Local frontend
+      "https://express-crud-delta.vercel.app", // Deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
-// Allow CORS from frontend (without the trailing slash)
-// app.use(
-//   cors({
-//     origin: "https://express-crud-delta.vercel.app", // Exact frontend URL
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Include OPTIONS for preflight request
-//     allowedHeaders: ["Content-Type", "Authorization"], // Allow headers like Content-Type, Authorization if needed
-//     credentials: true,
-//   })
-// );
-// Required to handle preflight requests properly
-// app.options("*", cors());
 
 app.use(express.json());
 
 let users = []; // our fake database
 let id = 1;
 
-app.get('/',(req,res)=>{
-  res.send("Welcome to the Backend")
-})
+app.get("/", (req, res) => {
+  res.send("Welcome to the Backend");
+  next();
+});
 
 // CREATE
 app.post("/api/users", (req, res) => {
