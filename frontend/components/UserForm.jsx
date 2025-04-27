@@ -85,10 +85,13 @@
 import React, { useState, useEffect } from "react";
 import "./userform.css"; // We'll create this CSS file next
 
-const API_URL = "https://express-crud-api-two.vercel.app/api/users";
+// const API_URL = " http://localhost:5000/api/users";
+const API_URL = "http://express-crud-production.up.railway.app/api/users";
 
 function UserForm() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([
+    { name: "suleman", email: "suleman@gmial.com" },
+  ]);
   const [form, setForm] = useState({ name: "", email: "" });
   const [editId, setEditId] = useState(null);
 
@@ -97,6 +100,24 @@ function UserForm() {
       .then((res) => res.json())
       .then(setUsers);
   };
+  // const fetchUsers = () => {
+  //   fetch(API_URL)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const defaultUser = {
+  //         name: "suleman",
+  //         email: "suleman@gmial.com",
+  //         id: "default",
+  //       };
+
+  //       // Check if default user is already in data
+  //       const hasDefaultUser = data.some(
+  //         (user) => user.email === defaultUser.email
+  //       );
+
+  //       setUsers(hasDefaultUser ? data : [defaultUser, ...data]);
+  //     });
+  // };
 
   useEffect(() => {
     fetchUsers();
@@ -134,68 +155,73 @@ function UserForm() {
   };
 
   return (
-    <div className="crud-container">
-      <h1>CRUD Database</h1>
+    <>
+      <div className="crud-container">
+        <h1>CRUD Database</h1>
 
-      <div className="table-container">
-        <table className="crud-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-
-                <td>{user.email}</td>
-
-                <td>
-                  <button className="edit-btn" onClick={() => handleEdit(user)}>
-                    Edit
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(user.id)}
-                  >
-                    Del
-                  </button>
-                </td>
+        <div className="table-container">
+          <table className="crud-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
 
-      <div className="form-container">
-        <h2>Add/Edit User</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <input
-              placeholder="Name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-          </div>
+                  <td>{user.email}</td>
 
-          <button type="submit" className="submit-btn">
-            {editId ? "Update User" : "Add User"}
-          </button>
-        </form>
+                  <td>
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleEdit(user)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(user.id)}
+                    >
+                      Del
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="form-container">
+          <h2>Add/Edit User</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <input
+                placeholder="Name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+              />
+            </div>
+
+            <button type="submit" className="submit-btn">
+              {editId ? "Update User" : "Add User"}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
