@@ -1,6 +1,6 @@
 # 🚀 Full Stack CRUD App – Express & React
 
-![App Screenshot](./screenshots/homepage.png)
+![App Screenshot](https://github.com/WebDevSuleman/express-crud/blob/9d739f0eb1fef1a208a5a136029b712465cb0a95/Screenshot%20(27).png)
 
 ---
 
